@@ -7,6 +7,7 @@
    70 REM *            2024            *
    80 REM ******************************
    90 :
+   95 REM CREDITS:
   100 REM Haunted House was originally
   110 REM written by Jenny Tylor and
   120 REM Les Howarth for Usborne Books.
@@ -15,14 +16,19 @@
   150 REM I've Ported it to the agon light2
   160 REM plus pimped it up with graphics etc.
   170 REM I still want to add soud effects.
+  171 :
+  172 REM Additional Credits go to the following:
+  173 REM Vino for MapMaker.
+  174 REM Robogeek for Sped.
+  175 REM Eightbitswide for some of his tiles.
   180 :
   190 REM Main Setup
   200 MB%=&40000 : REM Memory Bank &40000.
   210 DIM Graphics 1024 : REM Array for pixels.
   220 DIM TheMap%(14,14) : REM i=x,j=y.
-  230 MyMaps$="/haunted3/maps" : REM maps directory.
+  230 MyMaps$="maps" : REM maps directory.
   240 Map$="57" : REM DEFAULT Map start point.
-  250 TilesPack$="/haunted3/tiles" : REM changes for your custom tiles directory.
+  250 TilesPack$="tiles" : REM changes for your custom tiles directory.
   260 MapName$=(MyMaps$ + "/" + Map$  + ".map") : REM maps file paths & names.
   270 XSIZE%=11:YSIZE%=6:XIMP%=0:YIMP%=0:x%=112:y%=96:p%=0:custom%=0:decks%=6 : REM Vars.
   280 VDU 23,27,16 : REM Clear all sprite data.
@@ -39,7 +45,7 @@
   390   CLS
   400   PROC_MainLoop
   410 UNTIL GAMEOVER=TRUE
-  430 PROC_TitleSplash
+  430 PROC_YouDied
   440 END : REM END Main Setup
   450 :
   460 DEF PROC_MainLoop
@@ -97,7 +103,7 @@
   910   IF MID$(in$,I,1)=" " AND vb$="" THEN vb$=LEFT$(in$,I-1)
   920   IF MID$(in$,I+1,1)<>" " AND vb$<>"" THEN n$=MID$(in$,I+1,LEN(in$)-1) : I=LEN(in$)
   930 NEXT I
-  940 IF n$="" vb$=in$
+  940 IF n$="" THEN vb$=in$
   950 FOR I=1 TO nvbs%
   960   IF vb$=vb$(I) THEN vb%=I
   970 NEXT I
@@ -105,13 +111,13 @@
   990   IF LEFT$(n$,3)=gob$(I) THEN ob%=I
  1000 NEXT I
  1010 IF n$>"" AND ob%=0 THEN msge$="That is silly!"
- 1020 IF vb%=0 vb%=vb%+1
- 1030 IF n$="" msge$="-"
- 1040 IF vb%>nvbs% AND ob%>0 msge$="You cannot '"+in$+"'"
- 1050 IF vb%>nvbs% AND ob%=0 msge$="You do not make sense!"
- 1060 IF vb%<nvbs% AND ob%>0 AND cy%(ob%)=0 msge$="You do not have '"+n$+"'"
- 1070 IF flag%(26)=1 AND rm%=13 AND RND(3)<>3 AND vb%<>21 msge$="VAMPIRE BATS ATTACKING!" : GOTO 510 : REM SOUND2,-15,30,153
- 1080 IF rm%=44 AND RND(2)=1 AND flag%(24)<>1 flag%(27)=1
+ 1020 IF vb%=0 THEN vb%=vb%+1
+ 1030 IF n$="" THEN  msge$="-"
+ 1040 IF vb%>nvbs% AND ob%>0 THEN msge$="You cannot '"+in$+"'"
+ 1050 IF vb%>nvbs% AND ob%=0 THEN msge$="You do not make sense!"
+ 1060 IF vb%<nvbs% AND ob%>0 AND cy%(ob%)=0 THEN msge$="You do not have '"+n$+"'"
+ 1070 IF flag%(26)=1 AND rm%=13 AND RND(3)<>3 AND vb%<>21 THEN msge$="VAMPIRE BATS ATTACKING!" : GOTO 510 : REM SOUND2,-15,30,153
+ 1080 IF rm%=44 AND RND(2)=1 AND flag%(24)<>1 THEN flag%(27)=1
  1090 IF vb%=1 PROChelp
  1100 IF vb%=2 PROCrucksack
  1110 IF vb%=3 PROCmove
@@ -161,7 +167,7 @@
  1550 COLOUR ColIntGreen% : PRINT "RuckSacK: "
  1560 COLOUR ColIntYellow% : PRINT "";
  1570 FOR I=1 TO get%
- 1580   IF cy%(I)=1 PRINT obj$(I);",";
+ 1580   IF cy%(I)=1 THEN PRINT obj$(I);",";
  1590 NEXT I
  1600 msge$="" : PRINT
  1610 PROCcyon
@@ -169,26 +175,26 @@
  1630 :
  1640 DEF PROCmove
  1650 dir%=0
- 1660 IF ob%=0 dir%=vb%-3
- 1670 IF ob%=19 dir%=1
- 1680 IF ob%=20 dir%=2
- 1690 IF ob%=21 dir%=3
- 1700 IF ob%=22 dir%=4
- 1710 IF ob%=23 dir%=5
- 1720 IF ob%=24 dir%=6
- 1730 IF rm%=20 AND dir%=5 dir%=1
- 1740 IF rm%=20 AND dir%=6 dir%=3
- 1750 IF rm%=22 AND dir%=6 dir%=2
- 1760 IF rm%=22 AND dir%=5 dir%=3
- 1770 IF rm%=36 AND dir%=6 dir%=1
- 1780 IF rm%=36 AND dir%=5 dir%=2
- 1790 IF flag%(14)=1 msge$="Crash! You fell out of the tree!" : flag%(14)=0 : GAMEOVER=TRUE : ENDPROC
- 1800 IF flag%(27)=1 AND rm%=52 msge$="Ghosts will not let you move!" : ENDPROC
+ 1660 IF ob%=0 THEN dir%=vb%-3
+ 1670 IF ob%=19 THEN dir%=1
+ 1680 IF ob%=20 THEN dir%=2
+ 1690 IF ob%=21 THEN dir%=3
+ 1700 IF ob%=22 THEN dir%=4
+ 1710 IF ob%=23 THEN dir%=5
+ 1720 IF ob%=24 THEN dir%=6
+ 1730 IF rm%=20 AND dir%=5 THEN dir%=1
+ 1740 IF rm%=20 AND dir%=6 THEN dir%=3
+ 1750 IF rm%=22 AND dir%=6 THEN dir%=2
+ 1760 IF rm%=22 AND dir%=5 THEN dir%=3
+ 1770 IF rm%=36 AND dir%=6 THEN dir%=1
+ 1780 IF rm%=36 AND dir%=5 THEN dir%=2
+ 1790 IF flag%(14)=1 THEN msge$="Crash! You fell out of the tree!" : flag%(14)=0 : PROC_YouDied : ENDPROC
+ 1800 IF flag%(27)=1 AND rm%=52 THEN msge$="Ghosts will not let you move!" : ENDPROC
  1810 IF rm%=45 AND cy%(1)=1 AND flag%(34)=0 THEN msge$="A magical barrier appeared." : ENDPROC
- 1820 IF (rm%=18 AND flag%(0)=0) AND (dir%=1 OR dir%=4) msge$="It is too dark to move, you need a light." : ENDPROC
- 1830 IF rm%=54 AND cy%(15)<>1 msge$="You are stuck! Better luck next time." : PROCcyon : GAMEOVER=TRUE
- 1840 IF cy%(15)=1 AND NOT(rm%=53 OR rm%=54 OR rm%=55 OR rm%=47) msge$="You cannot carry a boat!" : ENDPROC
- 1850 IF (rm%>26 AND rm%<30) AND flag%(0)=0 msge$="It is too dark to move" : ENDPROC
+ 1820 IF (rm%=18 AND flag%(0)=0) AND (dir%=1 OR dir%=4) THEN msge$="It is too dark to move, you need a light." : ENDPROC
+ 1830 IF rm%=54 AND cy%(15)<>1 THEN msge$="You are stuck! Better luck next time." : PROC_YouDied
+ 1840 IF cy%(15)=1 AND NOT(rm%=53 OR rm%=54 OR rm%=55 OR rm%=47) THEN msge$="You cannot carry a boat!" : ENDPROC
+ 1850 IF (rm%>26 AND rm%<30) AND flag%(0)=0 THEN msge$="It is too dark to move" : ENDPROC
  1860 flag%(35)=0 : RL=LEN(route$(rm%))
  1870 FOR I=1 TO RL
  1880   dir$=MID$(route$(rm%),I,1)
@@ -198,83 +204,84 @@
  1920   IF (dir$="E" AND dir%=4 AND flag%(35)=0) rm%=rm%+1 : flag%(35)=1
  1930 NEXT I
  1940 msge$="Ready"
- 1950 IF flag%(35)=0 msge$="You cannot go that way!"
- 1960 IF dir%<1 msge$="Go where?"
- 1970 IF rm%=41 AND flag%(23)=1 route$(49)="W" : msge$="The door slams shut!" : flag%(23)=0 : REM SOUND3,-15,20,90
+ 1950 IF flag%(35)=0 THEN msge$="You cannot go that way!"
+ 1960 IF dir%<1 THEN msge$="Go where?"
+ 1970 IF rm%=41 AND flag%(23)=1 THEN route$(49)="W" : msge$="The door slams shut!" : flag%(23)=0 : REM SOUND3,-15,20,90
  1980 ENDPROC : REM END move
  1990 :
  2000 DEF PROCtake
- 2010 IF ob%>get% msge$="You cannot get "+n$ : ENDPROC
- 2020 IF loc%(ob%)<>rm% msge$="It is not here"
- 2030 IF ob%<>0 msge$="WHAT "+n$+"?"
- 2040 IF cy%(ob%)=1 msge$="You already have it"
- 2050 IFob%>0 AND loc%(ob%)=rm% AND flag%(ob%)=0 cy%(ob%)=1 : loc%(ob%)=65 : msge$="You now have it."
+ 2010 IF ob%>get% THEN msge$="You cannot get "+n$ : ENDPROC
+ 2020 IF loc%(ob%)<>rm% THEN msge$="It is not here"
+ 2030 IF ob%<>0 THEN msge$="WHAT "+n$+"?"
+ 2040 IF cy%(ob%)=1 THEN msge$="You already have it"
+ 2050 IF ob%>0 AND loc%(ob%)=rm% AND flag%(ob%)=0 THEN cy%(ob%)=1 : loc%(ob%)=65 : msge$="You now have it."
  2060 ENDPROC : REM END take
  2070 :
  2080 DEF PROCopen
- 2090 IF rm%=43 AND (ob%=28 OR ob%=29) flag%(17)=0 : msge$="The drawer is now open"
- 2100 IF rm%=28 AND ob%=25 msge$="It is locked"
- 2110 IF rm%=38 AND ob%=32 msge$="It is now open" : flag%(2)=0
+ 2090 IF rm%=43 AND (ob%=28 OR ob%=29) THEN flag%(17)=0 : msge$="The drawer is now open"
+ 2100 IF rm%=28 AND ob%=25 THEN msge$="It is locked"
+ 2110 IF rm%=38 AND ob%=32 THEN msge$="It is now open" : flag%(2)=0
  2120 ENDPROC : REM END open
  2130 :
  2140 DEF PROCexam
- 2150 IF ob%=10 msge$="It needs batteries"
- 2160 IF ob%=30 flag%(18)=0 : msge$="Something falls out the     pocket."
- 2170 IF ob%=31 msge$="That's disgusting!"
- 2180 IF (ob%=28 OR ob%=29) msge$="There is a drawer"
- 2190 IF ob%=33 OR ob%=5 PROCread
- 2200 IF rm%=43 AND ob%=35 msge$="There is something beyond....."
+ 2150 IF ob%=10 THEN msge$="It needs batteries"
+ 2160 IF ob%=30 THEN flag%(18)=0 : msge$="Something falls out the     pocket."
+ 2170 IF ob%=31 THEN msge$="That's disgusting!"
+ 2180 IF (ob%=28 OR ob%=29) THEN msge$="There is a drawer"
+ 2190 IF ob%=33 OR ob%=5 THEN PROCread
+ 2200 IF rm%=43 AND ob%=35 THEN msge$="There is something beyond....."
  2210 IF ob%=32 PROCopen
  2220 ENDPROC : REM END exam
  2230 :
  2240 DEF PROCread
- 2250 IF rm%=42 AND ob%=33 msge$="They are demonic works"
- 2260 IF (ob%=3 OR ob%=36) AND cy%(3)=1 AND flag%(34)=0 msge$="It says: Use this word with  care.. AGON"
- 2270 IF cy%(5)=1 AND ob%=5 msge$="The writing is in a strange  language"
+ 2250 IF rm%=42 AND ob%=33 THEN msge$="They are demonic works"
+ 2260 IF (ob%=3 OR ob%=36) AND cy%(3)=1 AND flag%(34)=0 THEN msge$="It says: Use this word with  care.. AGON"
+ 2270 IF cy%(5)=1 AND ob%=5 THEN msge$="The writing is in a strange  language"
  2280 ENDPROC : REM END read
  2290 :
  2300 DEF PROCsay
- 2310 msge$="Ready  '"+n$+"'"
- 2320 IF cy%(3)=1 AND ob%=34 THEN msge$="You feel faint and close   your eyes. When you open them something magical has happened." : IF rm%<>45 THEN rm%=RND(63)
+ 2310 msge$="Ready  "+n$+""
+ 2320 IF cy%(3)=1 AND ob%=34 THEN msge$="You close your eyes. When you open them something magical has happened." : IF rm%<>45 THEN rm%=RND(63)
  2330 IF cy%(3)=1 AND ob%=34 AND rm%=45 THEN flag%(34)=1
  2340 ENDPROC : REM END say
  2350 :
  2360 DEF PROCdig
- 2370 IF cy%(12)=1 msge$="You made a lovely little hole!"
- 2380 IF cy%(12)=1 AND rm%=30 msge$="You have dug the bars out" : loc$(rm%)="There is a hole in the wall" : route$(rm%)="NSE"
+ 2370 IF cy%(12)=1 THEN msge$="You made a lovely little hole!"
+ 2380 IF cy%(12)=1 AND rm%=30 THEN msge$="You have dug the bars out" : loc$(rm%)="There is a hole in the wall" : route$(rm%)="NSE"
  2390 ENDPROC : REM END dig
  2400 :
  2410 DEF PROCswing
- 2420 IF cy%(14)<>1 AND rm%=7 msge$="This is no time to play games!"
- 2430 IF ob%=14 AND cy%(14)=1 msge$="You swung it"
- 2440 IF ob%=13 AND cy%(13)=1 msge$="Whoooosshhh!"
+ 2420 IF cy%(14)<>1 AND rm%=7 THEN msge$="This is no time to play games!"
+ 2430 IF ob%=14 AND cy%(14)=1 THEN msge$="You swung it"
+ 2440 IF ob%=13 AND cy%(13)=1 THEN msge$="Whoooosshhh!"
  2450 IF ob%=13 AND cy%(13)=1 AND rm%=43 route$(rm%)="WN" : loc$(rm%)="in a study with a secret room  connected" : msge$="You have broken the wall"
  2460 ENDPROC : REM END swing
  2470 :
  2480 DEF PROCclimb
- 2490 IF ob%=14 AND cy%(14)=1 msge$="It is not attached to anything!"
- 2500 IF ob%=14 AND cy%(14)<>1 AND rm%=7 AND flag%(14)=0 msge$="You see thick forest and a    cliff to the south" : flag%(14)=1 : ENDPROC
- 2510 IF ob%=14 AND cy%(14)<>1 AND rm%=7 AND flag%(14)=1 msge$="Going down!" : flag%(14)=0
+ 2490 IF ob%=14 AND cy%(14)=1 THEN msge$="It is not attached to anything!"
+ 2500 IF ob%=14 AND cy%(14)<>1 AND rm%=7 AND flag%(14)=0 THEN msge$="You see thick forest and a    cliff to the south" : flag%(14)=1 : ENDPROC
+ 2510 IF ob%=14 AND cy%(14)<>1 AND rm%=7 AND flag%(14)=1 THEN msge$="Going down!" : flag%(14)=0
  2520 ENDPROC : REM END climb
  2530 :
  2540 DEF PROClight
- 2550 IF ob%=17 AND cy%(17)=1 AND cy%(8)=0 msge$="It will burn your hands!"
- 2560 IF ob%=17 AND cy%(17)=1 AND cy%(9)=0 msge$="You have nothing to light it with!"
- 2570 IF ob%=17 AND cy%(17)=1 AND cy%(9)=1 AND cy%(8)=1 msge$="It casts a flickering light" : flag%(0)=1
+ 2550 IF ob%=17 AND cy%(17)=1 AND cy%(8)=0 THEN msge$="It will burn your hands!"
+ 2560 IF ob%=17 AND cy%(17)=1 AND cy%(9)=0 THEN msge$="You have nothing to light it with!"
+ 2570 IF ob%=17 AND cy%(17)=1 AND cy%(9)=1 AND cy%(8)=1 THEN msge$="It casts a flickering light" : flag%(0)=1
  2580 ENDPROC : REM END light
  2590 :
  2600 DEF PROCsnuff
- 2610 IF flag%(0)=1 flag%(0)=0 : msge$="Your candle is out"
+ IF flag%(0)=1 THEN flag%(0)=0 : msge$="Extinguished"
+ 2610 IF flag%(0)=1 THEN flag%(0)=0 msge$="Your candle is out"
  2620 ENDPROC : REM END snuff
  2630 :
  2640 DEF PROCspray
- 2650 IF ob%=26 AND cy%(16)=1 msge$="Hissssss"
- 2660 IF ob%=26 AND cy%(16)=1 flag%(26)=0 : msge$="Pfffft! Got them!"
+ 2650 IF ob%=26 AND cy%(16)=1 THEN msge$="Hissssss"
+ 2660 IF ob%=26 AND cy%(16)=1 THEN flag%(26)=0 : msge$="Pfffft! Got them!"
  2670 ENDPROC : REM END spray
  2680 :
  2690 DEF PROCuse
- 2700 IF ob%=10 AND cy%(10)=1 AND cy%(11)=1 msge$="It is switched on" : flag%(24)=1
- 2710 IF flag%(27)=1 AND flag%(24)=1 msge$="Whizzzz! You vacuumed the ghosts up!" : flag%(27)=0
+ 2700 IF ob%=10 AND cy%(10)=1 AND cy%(11)=1 THEN msge$="It is switched on" : flag%(24)=1
+ 2710 IF flag%(27)=1 AND flag%(24)=1 THEN msge$="Whizzzz! You vacuumed the ghosts up!" : flag%(27)=0
  2720 ENDPROC : REM END use
  2730 :
  2740 DEF PROCunlock
@@ -352,10 +359,10 @@
  3440 DATA DOOR,BATS,GHOSTS,DRAWER,DESK,COAT,RUBBISH
  3450 DATA COFFIN,BOOKS,AGON,WALL,SPELLS
  3460 DATA PAI,RIN,MAG,GOB,SCR,COI,STA,GLO,MAT,VAC,BAT,SHO,AXE,ROP,BOA,AER,CAN,KEY,NOR,SOU,WES,EAS,UP,DOW,DOO,VBT,GHO,DRA,DES,COA,RUB,COF,BOO,AGO,WAL,SPE
- 3470 FOR I=1 TO  nobs%
+ 3470 FOR I=1 TO nobs%
  3480   READ obj$(I)
  3490 NEXT I
- 3500 FOR I=1 TO  nobs%
+ 3500 FOR I=1 TO nobs%
  3510   READ gob$(I)
  3520 NEXT I
  3530 flag%(18)=1:flag%(17)=1:flag%(2)=1:flag%(26)=1:flag%(28)=1:flag%(23)=1 : rm%=57 : msge$="Ready"
@@ -560,7 +567,16 @@
  5640 VDU 23,235,15,3,0,0,56,56,60,30
  5650 VDU 23,236,240,248,124,60,60,120,240,224
  5660 REM HUD CHARS.
- 5670 :
+ 5661 REM ASSIGN I to CHARS.
+ 5662 VDU 23,237,0,24,57,113,3,3,3,3
+ 5663 VDU 23,238,0,244,248,252,192,192,192,192
+ 5664 VDU 23,239,3,3,3,3,3,95,63,95
+ 5665 VDU 23,240,192,192,192,192,192,140,156,56
+ 5666 REM ASSIGN Y to CHARS.
+ 5667 VDU 23,241,0,16,56,56,56,56,30,15
+ 5668 VDU 23,242,0,8,28,28,12,28,124,248
+ 5669 VDU 23,243,7,3,3,3,3,3,3,3
+ 5670 VDU 23,244,224,224,192,192,192,192,128,128
  5680 ENDPROC : REM END Load Chars.
  5690 :
  5700 DEF PROC_Vars : REM Vars
@@ -712,7 +728,7 @@
  7150 ENDPROC
  7160 :
  7500 DEF PROC_EndGame
- 7510 MODE8
+ 7510 MODE 8
  7520 COLOUR ColIntWhite%
  7530 COLOUR ColBlue%+128
  7540 CLS
@@ -721,3 +737,54 @@
  7570 END
  7600 ENDPROC : REM END end game.
  7610 :
+ 8000 DEF PROC_DrawYou(T1X,T1Y)  : REM DRAW YOU
+ 8010 REM DISPLAY Y (2x2) CHARS.
+ 8020 COLOUR ColIntRed%
+ 8030 PRINT TAB(T1X,T1Y);CHR$(241);CHR$(242)
+ 8040 PRINT TAB(T1X,T1Y+1);CHR$(243);CHR$(244)
+ 8050 REM DISPLAY 0 (2x2) CHARS.
+ 8060 PRINT TAB(T1X+2,T1Y);CHR$(229);CHR$(230)
+ 8070 PRINT TAB(T1X+2,T1Y+1);CHR$(231);CHR$(232)
+ 8080 REM DISPLAY U (2x2) CHARS.
+ 8090 PRINT TAB(T1X+4,T1Y);CHR$(209);CHR$(210)
+ 8100 PRINT TAB(T1X+4,T1Y+1);CHR$(211);CHR$(212)
+ 8110 ENDPROC : REM END DRAW_YOU
+ 8120 :
+ 8250 DEF PROC_DrawDied(T2X,T2Y) : REM DRAW died
+ 8260 REM DISPLAY D (2x2) CHARS.
+ 8270 COLOUR ColIntRed%
+ 8280 PRINT TAB(T2X,T2Y);CHR$(225);CHR$(226)
+ 8290 PRINT TAB(T2X,T2Y+1);CHR$(227);CHR$(228)
+ 8300 REM DISPLAY I (2x2) CHARS.
+ 8310 PRINT TAB(T2X+2,T2Y);CHR$(237);CHR$(238)
+ 8320 PRINT TAB(T2X+2,T2Y+1);CHR$(239);CHR$(240)
+ 8330 REM DISPLAY E (2x2) CHARS.
+ 8340 PRINT TAB(T2X+4,T2Y);CHR$(221);CHR$(222)
+ 8350 PRINT TAB(T2X+4,T2Y+1);CHR$(223);CHR$(224)
+ 8360 REM DISPLAY D (2x2) CHARS.
+ 8370 PRINT TAB(T2X+6,T2Y);CHR$(225);CHR$(226)
+ 8380 PRINT TAB(T2X+6,T2Y+1);CHR$(227);CHR$(228)
+ 8390 ENDPROC : REM END DRAW_DIED
+ 8400 :
+ 8500 DEF PROC_YouDied : REM You Died
+ 8580 VDU 26,30,23,1,0 : REM RESET VP to whole screen,
+ 8590 CLS
+ 8600 PRINT : PRINT : COLOUR ColIntRed%
+ 8610 PROC_DrawYou(13,8) : REM DRAW HAUNTED
+ 8620 PROC_DrawDied(17,11) : REM DRAW HOUSE
+ 8630 COLOUR ColIntGreen%
+ 8640 PRINT "                                        "
+ 8650 PRINT "                                        "
+ 8660 PRINT "                                        "
+ 8670 PRINT "                                        "
+ 8680 PRINT TAB(LT%+5,16)"You Died a horrible death  "
+ 8690 PRINT TAB(LT%+5,17)"                           "
+ 8700 PRINT TAB(LT%+5,18)"       TRY AGAIN?          "
+ 8710 PRINT TAB(LT%+5,20)"          Whimp            "
+ 8720 PRINT TAB(LT%+9,24);""; : INPUT "Play Again Y or N " in$
+ 8730 IF in$="Y" OR in$="y" THEN flag%(18)=1:flag%(17)=1:flag%(2)=1:flag%(26)=1:flag%(28)=1:flag%(23)=1 : rm%=57 : msge$="Ready" : PROC_TitleSplash
+ 8740 IF in$="N" OR in$="n" THEN PROC_EndGame
+ 8750 CLS
+ 8760 :
+ 8770 ENDPROC : REM END YouDied
+ 8780 :
