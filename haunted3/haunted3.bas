@@ -234,8 +234,8 @@
  2220 ENDPROC : REM END exam
  2230 :
  2240 DEF PROCread
- 2250 IF rm%=42 AND ob%=33 THEN msge$="They are demonic works"
- 2260 IF (ob%=3 OR ob%=36) AND cy%(3)=1 AND flag%(34)=0 THEN msge$="It says: Use this word with  care.. AGON"
+ 2250 IF rm%=42 AND ob%=33 THEN msge$="They are MAGIC SPELLS"
+ 2260 IF (ob%=3 OR ob%=36) AND cy%(3)=1 AND flag%(34)=0 THEN msge$="It says: Use this word with care.. AGON"
  2270 IF cy%(5)=1 AND ob%=5 THEN msge$="The writing is in a strange  language"
  2280 ENDPROC : REM END read
  2290 :
@@ -301,7 +301,7 @@
  2860   IF cy%(I)=1 score%=score%+1
  2870 NEXTI
  2880 IF score%=17 AND cy%(15)<>1 AND rm%<>57 PRINT "You have everything" : PRINT "Return to the gate for your final score":
- 2890 IF score%=17 AND rm%=57 PRINT "DOUBLE SCORE FOR REACHING HERE!" : score%=score%*2 : PRINT score% : PROCcyon : ENDPROC
+ 2890 IF score%=17 AND rm%=57 THEN PRINT "DOUBLE SCORE FOR REACHING HERE!" : score%=score%*2 : PRINT score% : PROCcyon : ENDPROC
  2900 PRINT "Your score is ";score% : PROCcyon : IF score%>18 PRINT "Well done! You have finished the game" :
  2910 ENDPROC : REM END score
  2920 :
@@ -319,7 +319,7 @@
  3040   READ loc%(I)
  3050 NEXT I
  3060 DATA HELP,RUCKSACK,GO,N,S,W,E,U,D,GET,TAKE,OPEN,EXAMINE,READ,SAY
- 3070 DATA DIG,SWING,CLIMB,LIGHT,OFF,SPRAY,USE,UNLOCK,LEAVE,SCORE,SAVE,LOAD,QUIT,HINT
+ 3070 DATA DIG,SWING,CLIMB,LIGHT,BLOWOUT,SPRAY,USE,UNLOCK,LEAVE,SCORE,SAVE,LOAD,QUIT,HINT
  3080 FOR I=1 TO nvbs%
  3090   READ vb$(I)
  3100 NEXT I
@@ -345,7 +345,7 @@
  3300 DATA in a Cupboard with a Coat hanging up,in the Front Hall,in the Sitting Room,in a Secret Room
  3310 DATA on some Steep Marble  Stairs,in the Dining Room,in a Deep Cellar with a Closed Coffin,on a Cliff Path
  3320 DATA in a Closet,in the Front Lobby,in a Library full of Evil   Books,in the Study with a Desk and a Hole in Wall
- 3330 DATA in a Weird Cobwebbed Room,in an Ice Cold Chamber,in a very Spooky Room,on a Cliff Path. Careful    there is a Marsh Close by
+ 3330 DATA in a Weird Cobwebbed Room,in an Ice Cold Chamber,in a very Spooky Room,on a Cliff Path. a Marsh Close by
  3340 DATA on a Rubbish Strewn Verandah,on the Front Porch,in the Front Tower,in a Sloping Corridoor
  3350 DATA in the Upper Gallery,in a Marsh by a Wall,in a Marsh,on a Soggy Path
  3360 DATA by the Twisted       Railings,by the Main Iron    gate - It seems Open,by some Old Railings,beneath the Front   Tower
@@ -353,7 +353,7 @@
  3380 FOR I=0 TO 63
  3390   READ loc$(I)
  3400 NEXT I
- 3410 DATA "painting","ring","spells","goblet","scroll","coins","statue","glove"
+ 3410 DATA "painting","ring","magic","goblet","scroll","coins","statue","glove"
  3420 DATA "matches","vacuum","battery","shovel","axe","rope","boat","aerosol","candle","key"
  3430 DATA NORTH,SOUTH,WEST,EAST,UP,DOWN
  3440 DATA DOOR,BATS,GHOSTS,DRAWER,DESK,COAT,RUBBISH
