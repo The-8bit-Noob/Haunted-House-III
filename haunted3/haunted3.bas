@@ -12,7 +12,7 @@
   110 REM written by Jenny Tylor and
   120 REM Les Howarth.
   130 REM It was a type-in listing for Usborne books from
-  140 REM back in the 1983.
+  140 REM back in 1983.
   150 REM I've written it for the agon light2
   160 REM plus added graphics and other game features like instructions, hints, save and load etc.
   165 REM Things Todo.
