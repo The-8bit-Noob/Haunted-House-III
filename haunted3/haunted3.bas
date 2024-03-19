@@ -137,7 +137,7 @@
  1250 IF vb%=17 PROCswing
  1260 IF vb%=18 PROCclimb
  1270 IF vb%=19 PROClight
- 1280 IF vb%=20 PROCsnuff
+ 1280 IF vb%=20 PROCblowOut
  1290 IF vb%=21 PROCspray
  1300 IF vb%=22 PROCuse
  1310 IF vb%=23 PROCunlock
@@ -234,9 +234,9 @@
  2220 ENDPROC : REM END exam
  2230 :
  2240 DEF PROCread
- 2250 IF rm%=42 AND ob%=33 THEN msge$="They are MAGIC SPELLS"
- 2260 IF (ob%=3 OR ob%=36) AND cy%(3)=1 AND flag%(34)=0 THEN msge$="It says: Use this word with care.. AGON"
- 2270 IF cy%(5)=1 AND ob%=5 THEN msge$="The writing is in a strange  language"
+ 2250 IF rm%=42 AND ob%=33 THEN msge$="They are MAGIC spells"
+ 2260 IF (ob%=3 OR ob%=36) AND cy%(3)=1 AND flag%(34)=0 THEN msge$="It says: Use this word with  care.. AGON"
+ 2270 IF cy%(5)=1 AND ob%=5 THEN msge$="The writing is strange  find a Secret room"
  2280 ENDPROC : REM END read
  2290 :
  2300 DEF PROCsay
@@ -254,7 +254,7 @@
  2420 IF cy%(14)<>1 AND rm%=7 THEN msge$="This is no time to play games!"
  2430 IF ob%=14 AND cy%(14)=1 THEN msge$="You swung it"
  2440 IF ob%=13 AND cy%(13)=1 THEN msge$="Whoooosshhh!"
- 2450 IF ob%=13 AND cy%(13)=1 AND rm%=43 route$(rm%)="WN" : loc$(rm%)="in a study with a secret room  connected" : msge$="You have broken the wall"
+ 2450 IF ob%=13 AND cy%(13)=1 AND rm%=43 THEN route$(rm%)="WN" : loc$(rm%)="in a study with a secret room  connected" : msge$="You have broken the wall"
  2460 ENDPROC : REM END swing
  2470 :
  2480 DEF PROCclimb
@@ -269,7 +269,7 @@
  2570 IF ob%=17 AND cy%(17)=1 AND cy%(9)=1 AND cy%(8)=1 THEN msge$="It casts a flickering light" : flag%(0)=1
  2580 ENDPROC : REM END light
  2590 :
- 2600 DEF PROCsnuff
+ 2600 DEF PROCblowOut
  IF flag%(0)=1 THEN flag%(0)=0 : msge$="Extinguished"
  2610 IF flag%(0)=1 THEN flag%(0)=0 msge$="Your candle is out"
  2620 ENDPROC : REM END snuff
@@ -300,9 +300,9 @@
  2850 FOR I=1 TO get%
  2860   IF cy%(I)=1 score%=score%+1
  2870 NEXTI
- 2880 IF score%=17 AND cy%(15)<>1 AND rm%<>57 PRINT "You have everything" : PRINT "Return to the gate for your final score":
- 2890 IF score%=17 AND rm%=57 THEN PRINT "DOUBLE SCORE FOR REACHING HERE!" : score%=score%*2 : PRINT score% : PROCcyon : ENDPROC
- 2900 PRINT "Your score is ";score% : PROCcyon : IF score%>18 PRINT "Well done! You have finished the game" :
+ 2880 IF score%=17 AND cy%(15)<>1 AND rm%<>57 PRINT"You have everything" : PRINT"Return to the gate for your final score":
+ 2890 IF score%=17 AND rm%=57 THEN PRINT"DOUBLE SCORE FOR REACHING HERE!" : score%=score%*2 : PRINTscore% : PROCcyon : ENDPROC
+ 2900 PRINT"Your score is ";score% : PROCcyon : IF score%>18 THEN PRINT"Well done! You have finished the game" :
  2910 ENDPROC : REM END score
  2920 :
  2930 DEF PROCcyon
