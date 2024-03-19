@@ -10,12 +10,16 @@
    95 REM CREDITS:
   100 REM Haunted House was originally
   110 REM written by Jenny Tylor and
-  120 REM Les Howarth for Usborne Books.
-  130 REM It was a type-in listing from
-  140 REM back in the 1980's.
-  150 REM I've Ported it to the agon light2
-  160 REM plus pimped it up with graphics etc.
-  170 REM I still want to add soud effects.
+  120 REM Les Howarth.
+  130 REM It was a type-in listing for Usborne books from
+  140 REM back in the 1983.
+  150 REM I've written it for the agon light2
+  160 REM plus added graphics and other game features like instructions, hints, save and load etc.
+  165 REM Things Todo.
+  166 REM soud effects.
+  167 REM sprites for all 17 objects.
+  168 REM a map.
+  169 REM more work on graphics for doors opening/closing etc.
   171 :
   172 REM Additional Credits go to the following:
   173 REM Vino for MapMaker.
