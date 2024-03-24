@@ -1,5 +1,6 @@
 # Haunted-House-III
 Haunted House Text Adventure Game for the Agon Light2, Originally written for Usborne books as a type-in game listing https://colorcomputerarchive.com/repo/Documents/Books/Write%20Your%20Own%20Adventure%20Programs%20(1983)(Usborne).pdf, I've added graphics and jazzed it up a little while porting it to the Agon Light 2.<BR>
+DOESN'T WORK IN ADL BASIC24.<BR>
 <BR>
 Place haunted3 folder (contained within the "haunted3-main" folder C/W all sub folders and files in the root of your sdcard./haunted3/ <BR>
 <BR>
